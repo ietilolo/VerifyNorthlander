@@ -106,4 +106,6 @@ askQuestion(questionsDB[0])
     alert("Quiz completed!");
     alert(`Failed attempts: ${failedAttempts}`);
     location.reload();
-  })
+  }).catch(e => {
+    console.log(e);
+  });
