@@ -102,10 +102,10 @@ askQuestion(questionsDB[0])
     return askQuestion(questionsDB[2]);
   }).then(() => {
     return askQuestion(questionsDB[3]);
+  }).catch(e => {
+    console.log(e);
   }).finally(() => {
     alert("Quiz completed!");
     alert(`Failed attempts: ${failedAttempts}`);
     location.reload();
-  }).catch(e => {
-    console.log(e);
   });
