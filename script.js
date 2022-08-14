@@ -52,7 +52,39 @@ const questionsDB = [
   }
 ];
 
-let userLevel = parseInt(window.prompt("Before we begin, Type the number corresponding to the diffculty level then press enter: (1) Easy, (2) Medium, (3) Hard"));
+let userLevel;
+
+// show modal
+document.querySelector("#modal-1").classList.toggle("show");
+
+// Set difficulty
+document.querySelector("#difficulty-easy").addEventListener("click", () => { userLevel = 1 });
+document.querySelector("#difficulty-medium").addEventListener("click", () => { userLevel = 2 });
+document.querySelector("#difficulty-hard").addEventListener("click", () => { userLevel = 3 });
+
+// Listen for start game
+document.querySelector("#modal-btn-close").addEventListener("click", function(){
+
+  // Hide Modal
+  document.querySelector("#modal-1").classList.toggle("show");
+
+  // Ask first question
+  askQuestion(questionsDB[0])
+    .then(() => {
+      return askQuestion(questionsDB[1]);
+    }).then(() => {
+      return askQuestion(questionsDB[2]);
+    }).then(() => {
+      return askQuestion(questionsDB[3]);
+    }).catch(e => {
+      console.log(e);
+    }).finally(() => {
+      alert("Quiz completed!");
+      alert(`Failed attempts: ${failedAttempts}`);
+      location.reload();
+    });
+});
+
 
 function askQuestion(question)
 {
@@ -94,18 +126,3 @@ function askQuestion(question)
 
   });
 }
-
-askQuestion(questionsDB[0])
-  .then(() => {
-    return askQuestion(questionsDB[1]);
-  }).then(() => {
-    return askQuestion(questionsDB[2]);
-  }).then(() => {
-    return askQuestion(questionsDB[3]);
-  }).catch(e => {
-    console.log(e);
-  }).finally(() => {
-    alert("Quiz completed!");
-    alert(`Failed attempts: ${failedAttempts}`);
-    location.reload();
-  });

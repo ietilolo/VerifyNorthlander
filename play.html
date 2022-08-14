@@ -39,21 +39,43 @@
             <div class="col offset-lg-0 d-flex flex-column align-items-center">
                 <p class="text-uppercase fw-bold"
                     style="color: var(--bs-gray-200);background: var(--bs-green);padding-left: 10px;padding-right: 10px;padding-top: 8px;padding-bottom: 8px;border-radius: 5px;">
-                    Timer : <span id="timer">10:00</span></p>
-                <img class="img-fluid" id="quizImg" src="assets/img/kawakawa%20entrance.jpg" style="width: 500px;">
+                    Timer : <span id="timer">10:00</span></p><img class="img-fluid" id="quizImg"
+                    src="assets/img/kawakawa%20entrance.jpg" style="width: 500px;">
                 <h1 style="color: var(--bs-gray-100);text-align: center;margin-top: 30px;">Where is this location ?</h1>
                 <div class="row">
                     <div
                         class="col d-flex flex-grow-1 flex-shrink-1 flex-fill justify-content-center align-items-center align-content-center">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-success btn-lg quizBtn" id="quizAnswer1"
-                                type="button">Kawakawa</button>
-                            <button class="btn btn-success btn-lg quizBtn" id="quizAnswer2"
-                                type="button">Whangarei</button>
-                            <button class="btn btn-success btn-lg quizBtn" id="quizAnswer3"
-                                type="button">Kerikeri</button>
+                        <div class="btn-group" role="group"><button class="btn btn-success btn-lg quizBtn"
+                                id="quizAnswer1" type="button">Kawakawa</button><button
+                                class="btn btn-success btn-lg quizBtn" id="quizAnswer2"
+                                type="button">Whangarei</button><button class="btn btn-success btn-lg quizBtn"
+                                id="quizAnswer3" type="button">Kerikeri</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="modal-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Game Settings</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Before we begin, fill in the settings to suit you :)</p>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Difficulty</h4>
+                            <button id="difficulty-easy" class="btn btn-outline-success" type="button">Easy</button>
+                            <button id="difficulty-medium" class="btn btn-outline-warning" type="button"
+                                style="margin-left: 10px;">Medium</button>
+                            <button id="difficulty-hard" class="btn btn-outline-danger" type="button"
+                                style="margin-left: 10px;">Hard</button>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal-btn-close" class="btn btn-primary" type="button">Start Game</button>
                 </div>
             </div>
         </div>
