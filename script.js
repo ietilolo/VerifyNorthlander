@@ -3,126 +3,86 @@ let image = document.querySelector("#quizImg");
 let option1 = document.querySelector("#quizAnswer1");
 let option2 = document.querySelector("#quizAnswer2");
 let option3 = document.querySelector("#quizAnswer3");
+let modal = document.querySelector("#modal-1");
+let failedAttempts = 0; // Track total failed attempts
+let userLevel; // Holds difficulty level
+let time; // How much time allocated depending on userLevel
+let timer; // setInterval id
 let timerContainer = document.querySelector("#timer");
+let currQuestionIndex = 0; // Keep track of question
 
-// total failed attempts
-let failedAttempts = 0;
 
-// Questions objects
-const questionsDB = [
-  {
-    id: 1,
-    image: "./img/quizImg2.jpg",
-    options: [
-      "Kerikeri",
-      "Paihia",
-      "Opua"
-    ],
-    answer: "Paihia"
-  },
-  {
-    id: 2,
-    image: "./img/quizImg1.jpg",
-    options: [
-      "Whangarei",
-      "Kerikeri",
-      "Kawakawa"
-    ],
-    answer: "Kawakawa"
-  },
-  {
-    id: 3,
-    image: "./img/quizImg3.jpg",
-    options: [
-      "Waitangi",
-      "Opononi",
-      "Kaitaia"
-    ],
-    answer: "Waitangi"
-  },
-  {
-    id: 4,
-    image: "./img/quizImg4.jpg",
-    options: [
-      "Paihia",
-      "Mitimiti",
-      "Moerewa"
-    ],
-    answer: "Moerewa"
+// Show Modal
+modal.classList.add("show");
+
+// let user choose difficulty
+const levelBtns = modal.querySelectorAll(".chooseLevelBtn");
+levelBtns.forEach(button => {
+  button.onclick = e => {
+    userLevel = parseInt(e.target.dataset.level);
   }
-];
-
-let userLevel;
-
-// show modal
-document.querySelector("#modal-1").classList.toggle("show");
-
-// Set difficulty
-document.querySelector("#difficulty-easy").addEventListener("click", () => { userLevel = 1 });
-document.querySelector("#difficulty-medium").addEventListener("click", () => { userLevel = 2 });
-document.querySelector("#difficulty-hard").addEventListener("click", () => { userLevel = 3 });
-
-// Listen for start game
-document.querySelector("#modal-btn-close").addEventListener("click", function(){
-
-  // Hide Modal
-  document.querySelector("#modal-1").classList.toggle("show");
-
-  // Ask first question
-  askQuestion(questionsDB[0])
-    .then(() => {
-      return askQuestion(questionsDB[1]);
-    }).then(() => {
-      return askQuestion(questionsDB[2]);
-    }).then(() => {
-      return askQuestion(questionsDB[3]);
-    }).catch(e => {
-      console.log(e);
-    }).finally(() => {
-      alert("Quiz completed!");
-      alert(`Failed attempts: ${failedAttempts}`);
-      location.reload();
-    });
 });
 
+// Listen for game start
+modal.querySelector("#modalStartBtn").onclick = () => {
+  modal.classList.remove("show"); // Hide Modal
+  askQuestion();
+}
 
-function askQuestion(question)
-{
-  return new Promise((resolved, rejected) => {
+function askQuestion(){
 
-    // count fails for current question & start timer
-    let currentAttempts = 0;
-    let time = userLevel == 1 ? 20 : userLevel == 2 ? 15 : userLevel == 3 ? 10 : 10;
-    let timer = time * 1000;
+  // --------------
+  // PRECHECKS
+  // --------------
+  if (currQuestionIndex >= questionsDB.length) {
+    alert(`You got ${questionsDB.length - failedAttempts} \\ ${questionsDB.length}`);
+    location.reload();
+  } // Check if no more questions then reset game
+  let question = questionsDB[currQuestionIndex]; // Show question
+  
+  // --------------
+  // SETUP DOME
+  // --------------
+  image.src = question.image; // Set DOM with question
+  option1.innerHTML = question.options[0];
+  option2.innerHTML = question.options[1];
+  option3.innerHTML = question.options[2];
 
-    // start timer
-    timerContainer.innerHTML = time;
-    let timerId = setInterval(() => {
-      time--;
-      timerContainer.innerHTML = time;
-      if (time <= 0) {
-        clearInterval(timerId);
+  // --------------
+  // SETUP TIMER
+  // --------------
+  time = userLevel === 1 ? 20 : userLevel === 2 ? 15 : userLevel === 3 ? 10 : 10; // Start timer
+  timerContainer.innerHTML = time;
+  timer = setInterval(() => {
+    time--;
+    timerContainer.innerHTML = time; // set DOM timer to time
+    if (time <= 0) {
+      timerContainer.innerHTML = "00:00"; // Reset DOMtimer
+      clearInterval(timer) // Clear timer
+      failedAttempts++; // Add 1 to failedAttempts
+      currQuestionIndex++; // Increase current question by 1
+      askQuestion();
+    }
+  }, 1000);
+
+  // --------------
+  // LISTEN CLICK ANSWER
+  // --------------
+  document.querySelectorAll(".quizBtn").forEach(button => {
+    button.onclick = e => {
+      if (e.target.innerHTML === question.answer){ // If right, reset time / clearInterval / currQuestionIndex++ / askQuestion
+        time = 0;
+        clearInterval(timer);
+        currQuestionIndex++;
+        askQuestion();
+      } else {
+        time = 0;
+        clearInterval(timer);
+        currQuestionIndex++;
         failedAttempts++;
-        resolved();
+        askQuestion();
       }
-    }, 1000);
-
-    // Set variables to question values
-    image.src = question.image;
-    option1.innerHTML = question.options[0];
-    option2.innerHTML = question.options[1];
-    option3.innerHTML = question.options[2];
-    timerContainer.innerHTML = time;
-
-    document.querySelectorAll(".quizBtn").forEach(e => {
-      e.addEventListener("click", e => {
-        if (e.target.innerHTML === question.answer)
-        {
-          console.log("Correct!");
-          resolved();
-        }
-      });
-    });
-
+    }
   });
+
 }

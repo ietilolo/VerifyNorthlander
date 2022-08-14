@@ -39,7 +39,7 @@
             <div class="col offset-lg-0 d-flex flex-column align-items-center">
                 <p class="text-uppercase fw-bold"
                     style="color: var(--bs-gray-200);background: var(--bs-green);padding-left: 10px;padding-right: 10px;padding-top: 8px;padding-bottom: 8px;border-radius: 5px;">
-                    Timer : <span id="timer">10:00</span></p><img class="img-fluid" id="quizImg"
+                    Timer : <span id="timer">00:00</span></p><img class="img-fluid" id="quizImg"
                     src="assets/img/kawakawa%20entrance.jpg" style="width: 500px;">
                 <h1 style="color: var(--bs-gray-100);text-align: center;margin-top: 30px;">Where is this location ?</h1>
                 <div class="row">
@@ -66,21 +66,23 @@
                     <div class="row">
                         <div class="col">
                             <h4>Difficulty</h4>
-                            <button id="difficulty-easy" class="btn btn-outline-success" type="button">Easy</button>
-                            <button id="difficulty-medium" class="btn btn-outline-warning" type="button"
-                                style="margin-left: 10px;">Medium</button>
-                            <button id="difficulty-hard" class="btn btn-outline-danger" type="button"
-                                style="margin-left: 10px;">Hard</button>
+                            <button id="difficulty-easy" data-level="1" class="btn btn-outline-success chooseLevelBtn"
+                                type="button">Easy</button>
+                            <button id="difficulty-medium" data-level="2" class="btn btn-outline-warning chooseLevelBtn"
+                                type="button" style="margin-left: 10px;">Medium</button>
+                            <button id="difficulty-hard" data-level="3" class="btn btn-outline-danger chooseLevelBtn"
+                                type="button" style="margin-left: 10px;">Hard</button>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="modal-btn-close" class="btn btn-primary" type="button">Start Game</button>
+                    <button id="modalStartBtn" class="btn btn-primary" type="button">Start Game</button>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./questions.js"></script>
     <script src="./script.js"></script>
 </body>
 
